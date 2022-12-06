@@ -3,6 +3,7 @@ mod day_01;
 mod day_03;
 mod day_04;
 mod day_05;
+mod day_06;
 
 use clap::{Parser, Subcommand};
 
@@ -10,7 +11,7 @@ use clap::{Parser, Subcommand};
 #[command(author, version, about, long_about = None)]
 struct Cli {
     /// Optional name to operate on
-    name: Option<String>,
+    input_string: Option<String>,
 
     /// Sets a custom config file
     #[arg(short, long, value_name = "FILE", global = true)]
@@ -30,6 +31,7 @@ enum Commands {
     DayThree {},
     DayFour {},
     DayFive {},
+    DaySix { input_string: String },
 }
 
 fn main() {
@@ -58,6 +60,17 @@ fn main() {
             if let Some(input_path) = cli.input.as_deref() {
                 println!("Part one answer: {}", day_05::part_one(input_path));
                 println!("Part two answer: {}", day_05::part_two(input_path));
+            }
+        }
+        Some(Commands::DaySix { input_string }) => {
+            match day_06::part_one(input_string.to_string()) {
+                Ok(index) => println!("Part one answer: {}", index),
+                Err(err) => println!("Part one error: {}", err),
+            }
+
+            match day_06::part_two(input_string.to_string()) {
+                Ok(index) => println!("Part two answer: {}", index),
+                Err(err) => println!("Part two error: {}", err),
             }
         }
         None => {}
