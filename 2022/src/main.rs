@@ -1,4 +1,6 @@
 use std::path::PathBuf;
+use clap::{Parser, Subcommand};
+
 mod day_01;
 mod day_03;
 mod day_04;
@@ -7,8 +9,7 @@ mod day_06;
 // mod day_07;
 mod day_08;
 mod day_09;
-
-use clap::{Parser, Subcommand};
+mod day_10;
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -38,6 +39,7 @@ enum Commands {
     // DaySeven {},
     DayEight {},
     DayNine {},
+    DayTen {},
 }
 
 fn main() {
@@ -89,6 +91,12 @@ fn main() {
             if let Some(input_path) = cli.input.as_deref() {
                 println!("Part one answer: {}", day_09::part_one(input_path));
                 println!("Part two answer: {}", day_09::part_two(input_path));
+            }
+        }
+        Some(Commands::DayTen {}) => {
+            if let Some(input_path) = cli.input.as_deref() {
+                println!("Part one answer: {}", day_10::part_one(input_path));
+                println!("Part two answer: {}", day_10::part_two(input_path));
             }
         }
         None => {}
