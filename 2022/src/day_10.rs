@@ -1,17 +1,15 @@
 use advent_of_code::read_lines;
-use std::path::Path;
-use std::collections::{BTreeMap};
+use log::debug;
 use regex::Regex;
+use std::collections::BTreeMap;
 use std::fmt;
-use log::{debug};
-
+use std::path::Path;
 
 fn should_calculate_signal_strength(current_cycle: usize) -> bool {
     if current_cycle < 20 {
-        return false
+        return false;
     }
-    current_cycle == 20
-        || (current_cycle - 20) % 40 == 0
+    current_cycle == 20 || (current_cycle - 20) % 40 == 0
 }
 
 pub fn part_one(input_path: &Path) -> i32 {
@@ -28,23 +26,21 @@ pub fn part_one(input_path: &Path) -> i32 {
         for (_, line) in lines.enumerate() {
             if let Ok(result) = line {
                 match addx_regex.captures(&result) {
-                    Some(capture) => {
-                        match capture.name("increment_by") {
-                            Some(increment_by) => {
-                                let _increment_by: i32 = increment_by.as_str().parse().unwrap();
-                                next_execution_cycle = next_execution_cycle + 2;
+                    Some(capture) => match capture.name("increment_by") {
+                        Some(increment_by) => {
+                            let _increment_by: i32 = increment_by.as_str().parse().unwrap();
+                            next_execution_cycle = next_execution_cycle + 2;
 
-                                cycle_executions
-                                    .entry(next_execution_cycle)
-                                    .and_modify(|v| {
-                                        v.push(_increment_by);
-                                    })
-                                    .or_insert(Vec::from([_increment_by]));
-                            }
-                            None => {}
+                            cycle_executions
+                                .entry(next_execution_cycle)
+                                .and_modify(|v| {
+                                    v.push(_increment_by);
+                                })
+                                .or_insert(Vec::from([_increment_by]));
                         }
+                        None => {}
                     },
-                    None => {},
+                    None => {}
                 };
 
                 match noop_regex.captures(&result) {
@@ -54,8 +50,8 @@ pub fn part_one(input_path: &Path) -> i32 {
                             .and_modify(|v| v.push(0))
                             .or_insert(Vec::from([0]));
                         next_execution_cycle = next_execution_cycle + 1;
-                    },
-                    None => {},
+                    }
+                    None => {}
                 };
             }
         }
@@ -63,7 +59,10 @@ pub fn part_one(input_path: &Path) -> i32 {
 
     let mut signal_strengths: Vec<i32> = Vec::new();
     for current_cycle in 1..=total_cycles {
-        debug!("Register value at start of cycle {}: {}", current_cycle, register_value);
+        debug!(
+            "Register value at start of cycle {}: {}",
+            current_cycle, register_value
+        );
 
         if let Some(_cycle_executions) = cycle_executions.remove(&current_cycle) {
             for cycle_execution in _cycle_executions.iter() {
@@ -74,10 +73,16 @@ pub fn part_one(input_path: &Path) -> i32 {
 
         if should_calculate_signal_strength(current_cycle) {
             let signal_strength = (current_cycle as i32) * register_value;
-            debug!("Signal strength at cycle {}: {}", current_cycle, signal_strength);
+            debug!(
+                "Signal strength at cycle {}: {}",
+                current_cycle, signal_strength
+            );
             signal_strengths.push(signal_strength);
         }
-        debug!("Register value at end of cycle {}: {}", current_cycle, register_value);
+        debug!(
+            "Register value at end of cycle {}: {}",
+            current_cycle, register_value
+        );
     }
 
     signal_strengths.iter().sum()
@@ -96,30 +101,28 @@ pub fn part_two(input_path: &Path) -> String {
         for (_, line) in lines.enumerate() {
             if let Ok(result) = line {
                 match addx_regex.captures(&result) {
-                    Some(capture) => {
-                        match capture.name("increment_by") {
-                            Some(increment_by) => {
-                                let _increment_by: i32 = increment_by.as_str().parse().unwrap();
-                                next_execution_cycle = next_execution_cycle + 2;
+                    Some(capture) => match capture.name("increment_by") {
+                        Some(increment_by) => {
+                            let _increment_by: i32 = increment_by.as_str().parse().unwrap();
+                            next_execution_cycle = next_execution_cycle + 2;
 
-                                cycle_executions
-                                    .entry(next_execution_cycle)
-                                    .and_modify(|v| {
-                                        v.push(_increment_by);
-                                    })
-                                    .or_insert(Vec::from([_increment_by]));
-                            }
-                            None => {}
+                            cycle_executions
+                                .entry(next_execution_cycle)
+                                .and_modify(|v| {
+                                    v.push(_increment_by);
+                                })
+                                .or_insert(Vec::from([_increment_by]));
                         }
+                        None => {}
                     },
-                    None => {},
+                    None => {}
                 };
 
                 match noop_regex.captures(&result) {
                     Some(_) => {
                         next_execution_cycle = next_execution_cycle + 1;
-                    },
-                    None => {},
+                    }
+                    None => {}
                 };
             }
         }
@@ -139,13 +142,16 @@ pub fn part_two(input_path: &Path) -> String {
 
             for cycle_execution in _cycle_executions.iter() {
                 register_value = register_value + cycle_execution;
-                debug!("End of cycle  {}: finish executing addx {} (Register X is now {})", currently_executing_cycle, cycle_execution, register_value);
+                debug!(
+                    "End of cycle  {}: finish executing addx {} (Register X is now {})",
+                    currently_executing_cycle, cycle_execution, register_value
+                );
 
                 match usize::try_from(register_value) {
                     Ok(value) => {
                         sprite_position.move_sprite(value);
-                    },
-                    Err(_) => {},
+                    }
+                    Err(_) => {}
                 }
                 debug!("Sprite position: {}", sprite_position);
             }
@@ -157,7 +163,10 @@ pub fn part_two(input_path: &Path) -> String {
             crt_row.push(".");
         }
 
-        debug!("During cycle  {}: CRT draws pixel in position {}", current_cycle, crt_drawing_position);
+        debug!(
+            "During cycle  {}: CRT draws pixel in position {}",
+            current_cycle, crt_drawing_position
+        );
         debug!("Current CRT row: {}", crt_row.join(""));
         crt_drawing_position = (crt_drawing_position + 1) % 40;
 
@@ -169,9 +178,15 @@ pub fn part_two(input_path: &Path) -> String {
         }
     }
 
-    format!("\n{}", crt_rows.iter().map(|r| r.join("")).collect::<Vec<String>>().join("\n"))
+    format!(
+        "\n{}",
+        crt_rows
+            .iter()
+            .map(|r| r.join(""))
+            .collect::<Vec<String>>()
+            .join("\n")
+    )
 }
-
 
 struct SpritePosition {
     sprites: BTreeMap<usize, String>,
@@ -208,9 +223,15 @@ impl SpritePosition {
 
     pub fn move_sprite(&mut self, middle_position: usize) {
         self.clear();
-        self.sprites.entry(middle_position-1).and_modify(|s| *s = "#".to_string());
-        self.sprites.entry(middle_position).and_modify(|s| *s = "#".to_string());
-        self.sprites.entry(middle_position+1).and_modify(|s| *s = "#".to_string());
+        self.sprites
+            .entry(middle_position - 1)
+            .and_modify(|s| *s = "#".to_string());
+        self.sprites
+            .entry(middle_position)
+            .and_modify(|s| *s = "#".to_string());
+        self.sprites
+            .entry(middle_position + 1)
+            .and_modify(|s| *s = "#".to_string());
     }
 }
 
@@ -219,7 +240,11 @@ impl fmt::Display for SpritePosition {
         write!(
             f,
             "{}",
-            self.sprites.values().cloned().collect::<Vec<String>>().join("")
+            self.sprites
+                .values()
+                .cloned()
+                .collect::<Vec<String>>()
+                .join("")
         )
     }
 }

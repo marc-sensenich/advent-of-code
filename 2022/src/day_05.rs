@@ -25,7 +25,10 @@ struct CrateMover9000 {
 }
 
 impl CrateMover9000 {
-    fn new(crates: BTreeMap<i32, VecDeque<String>>, manifests: Vec<CrateManifest>) -> CrateMover9000 {
+    fn new(
+        crates: BTreeMap<i32, VecDeque<String>>,
+        manifests: Vec<CrateManifest>,
+    ) -> CrateMover9000 {
         CrateMover9000 { crates, manifests }
     }
 
@@ -70,7 +73,10 @@ struct CrateMover9001 {
 }
 
 impl CrateMover9001 {
-    fn new(crates: BTreeMap<i32, VecDeque<String>>, manifests: Vec<CrateManifest>) -> CrateMover9001 {
+    fn new(
+        crates: BTreeMap<i32, VecDeque<String>>,
+        manifests: Vec<CrateManifest>,
+    ) -> CrateMover9001 {
         CrateMover9001 { crates, manifests }
     }
 
@@ -118,11 +124,17 @@ struct CrateManifest {
 
 impl CrateManifest {
     fn new(number_of_crates: i32, from_stack: i32, to_stack: i32) -> CrateManifest {
-        CrateManifest { number_of_crates, from_stack, to_stack }
+        CrateManifest {
+            number_of_crates,
+            from_stack,
+            to_stack,
+        }
     }
 }
 
-fn stacks_and_manifests_from_input(input_path: &Path) -> (BTreeMap<i32, VecDeque<String>>, Vec<CrateManifest>) {
+fn stacks_and_manifests_from_input(
+    input_path: &Path,
+) -> (BTreeMap<i32, VecDeque<String>>, Vec<CrateManifest>) {
     let mut stack_map: BTreeMap<i32, VecDeque<String>> = BTreeMap::new();
     let mut manifests: Vec<CrateManifest> = Vec::new();
 

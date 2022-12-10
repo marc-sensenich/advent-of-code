@@ -20,7 +20,6 @@ pub fn part_two(input_path: &Path) -> i32 {
     input.trees.iter().map(|t| t.scenic_score()).max().unwrap()
 }
 
-
 #[derive(Debug, Clone, Copy, Eq, Hash, PartialEq)]
 struct TreeCoordinate {
     row: isize,
@@ -63,7 +62,6 @@ impl Tree {
         self.is_edge_tree(edge_row, edge_column) || neighbors.is_tree_visible(&self)
     }
 }
-
 
 #[derive(Debug)]
 struct TreeNeighbors {
