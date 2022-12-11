@@ -6,7 +6,7 @@ mod day_03;
 mod day_04;
 mod day_05;
 mod day_06;
-// mod day_07;
+mod day_07;
 mod day_08;
 mod day_09;
 mod day_10;
@@ -36,7 +36,7 @@ enum Commands {
     DayFour {},
     DayFive {},
     DaySix { input_string: String },
-    // DaySeven {},
+    DaySeven {},
     DayEight {},
     DayNine {},
     DayTen {},
@@ -44,6 +44,7 @@ enum Commands {
 
 fn main() {
     let cli = Cli::parse();
+    env_logger::init();
 
     match &cli.command {
         Some(Commands::DayOne {}) => {
@@ -79,6 +80,12 @@ fn main() {
             match day_06::part_two(input_string.to_string()) {
                 Ok(index) => println!("Part two answer: {}", index),
                 Err(err) => println!("Part two error: {}", err),
+            }
+        }
+        Some(Commands::DaySeven {}) => {
+            if let Some(input_path) = cli.input.as_deref() {
+                println!("Part one answer: {}", day_07::part_one(input_path));
+                println!("Part two answer: {}", day_07::part_two(input_path));
             }
         }
         Some(Commands::DayEight {}) => {
