@@ -10,3 +10,17 @@ where
     let file = File::open(filename)?;
     Ok(io::BufReader::new(file).lines())
 }
+
+pub fn read_file_to_string<P>(filename: P) -> Result<String, std::io::Error>
+where
+    P: AsRef<Path>,
+{
+    std::fs::read_to_string(filename)
+}
+
+// pub fn read_file_to_string(filename: P) -> Result<std::string::String>
+// where
+//     P: AsRef<Path>,
+// {
+//     Ok(std::fs::read_to_string(filename))
+// }
