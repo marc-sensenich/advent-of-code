@@ -113,7 +113,6 @@ fn solve(input_path: &Path, potential_coordinates: Vec<PotentialCoordinate>) -> 
                             located_coordinates.push(LocatedCoordinate{rank: located_coordinate.0 as i32, value: potential_coordinate.value.as_str().to_string()});
                         }
                     }
-
                 }
 
                 located_coordinates.sort_by_key(|lc| lc.rank);
