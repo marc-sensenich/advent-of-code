@@ -1,8 +1,6 @@
 use advent_of_code::read_lines;
-use log::{debug, log_enabled, Level};
-use std::path::Path;
 use regex::Regex;
-
+use std::path::Path;
 
 pub fn part_one(input_path: &Path) -> i32 {
     let mut sum: i32 = 0;
@@ -41,7 +39,9 @@ pub fn part_two(input_path: &Path) -> i32 {
             blue_cubes.push(r.blue_cubes);
         });
 
-        let game_power = red_cubes.iter().max().unwrap() * green_cubes.iter().max().unwrap() * blue_cubes.iter().max().unwrap();
+        let game_power = red_cubes.iter().max().unwrap()
+            * green_cubes.iter().max().unwrap()
+            * blue_cubes.iter().max().unwrap();
         red_cubes.clear();
         green_cubes.clear();
         blue_cubes.clear();
@@ -71,16 +71,38 @@ fn load_games(input_path: &Path) -> Vec<Game> {
     if let Ok(lines) = read_lines(input_path) {
         for line in lines {
             if let Ok(mut result) = line {
-                let mut game = Game{id: 0, rounds: vec![] };
+                let mut game = Game {
+                    id: 0,
+                    rounds: vec![],
+                };
 
                 result = result.replace(" ", "");
-                let game_id = result.split_once(":").unwrap().0.to_string().replace("Game", "").parse::<u32>().unwrap();
+                let game_id = result
+                    .split_once(":")
+                    .unwrap()
+                    .0
+                    .to_string()
+                    .replace("Game", "")
+                    .parse::<u32>()
+                    .unwrap();
                 game.id = game_id;
-                let rounds: Vec<_> = result.split_once(":").unwrap().1.split(";").collect::<Vec<_>>();
+                let rounds: Vec<_> = result
+                    .split_once(":")
+                    .unwrap()
+                    .1
+                    .split(";")
+                    .collect::<Vec<_>>();
                 for round in &rounds {
-                    let mut new_round = Round{red_cubes: 0, green_cubes: 0, blue_cubes: 0};
+                    let mut new_round = Round {
+                        red_cubes: 0,
+                        green_cubes: 0,
+                        blue_cubes: 0,
+                    };
 
-                    let regex = Regex::new(r"(?m)((?P<red>\d+)red)?((?P<green>\d+)green)?((?P<blue>\d+)blue)?").unwrap();
+                    let regex = Regex::new(
+                        r"(?m)((?P<red>\d+)red)?((?P<green>\d+)green)?((?P<blue>\d+)blue)?",
+                    )
+                    .unwrap();
                     let result = regex.captures_iter(&round);
                     for mat in result {
                         match mat.name("red") {

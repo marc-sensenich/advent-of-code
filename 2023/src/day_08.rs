@@ -1,10 +1,8 @@
 use advent_of_code::read_lines;
-use log::{debug, log_enabled, Level};
-use std::path::Path;
-use regex::Regex;
-use std::collections::{HashMap, HashSet};
 use num::integer::lcm;
-
+use regex::Regex;
+use std::collections::HashMap;
+use std::path::Path;
 
 pub fn part_one(input_path: &Path) -> i64 {
     let node_regex = Regex::new(r"[A-Z]{3}").unwrap();
@@ -30,7 +28,6 @@ pub fn part_one(input_path: &Path) -> i64 {
                         nodes.insert(id.to_string(), (left.to_string(), right.to_string()));
                     }
                 }
-
             }
         }
     }
@@ -44,9 +41,9 @@ pub fn part_one(input_path: &Path) -> i64 {
     while current_node_id != "ZZZ" {
         left_or_right = instructions[current_index];
         current_node_id = match left_or_right {
-            'L' => {current_node.0.clone()}
-            'R' => {current_node.1.clone()}
-            _ => todo!()
+            'L' => current_node.0.clone(),
+            'R' => current_node.1.clone(),
+            _ => todo!(),
         };
         current_index = (current_index + 1) % instructions_count;
         current_node = nodes.get(&current_node_id).unwrap().clone();
@@ -60,7 +57,7 @@ pub fn part_two(input_path: &Path) -> i64 {
     let node_regex = Regex::new(r"[A-Z\d]{3}").unwrap();
     let mut instructions: Vec<char> = vec![];
     let mut nodes: HashMap<String, (String, String)> = HashMap::new();
-    let mut current_node_id: String = String::from("AAA");
+    let _current_node_id: String = String::from("AAA");
     let mut starting_nodes: Vec<String> = vec![];
 
     if let Ok(lines) = read_lines(input_path) {
@@ -85,7 +82,6 @@ pub fn part_two(input_path: &Path) -> i64 {
                         nodes.insert(id.to_string(), (left.to_string(), right.to_string()));
                     }
                 }
-
             }
         }
     }
@@ -110,17 +106,15 @@ pub fn part_two(input_path: &Path) -> i64 {
             current_node = nodes.get(&next_node_id).unwrap().clone();
 
             next_node_id = match left_or_right {
-                'L' => {current_node.0.clone()}
-                'R' => {current_node.1.clone()}
-                _ => todo!()
+                'L' => current_node.0.clone(),
+                'R' => current_node.1.clone(),
+                _ => todo!(),
             };
 
             current_index = (current_index + 1) % instructions_count;
-
         }
 
         distances.push(steps);
-
     }
 
     distances.iter().copied().reduce(|a, b| lcm(a, b)).unwrap()

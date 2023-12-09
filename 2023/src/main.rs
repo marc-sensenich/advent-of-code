@@ -11,7 +11,6 @@ mod day_07;
 mod day_08;
 mod day_09;
 
-
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
 struct Cli {

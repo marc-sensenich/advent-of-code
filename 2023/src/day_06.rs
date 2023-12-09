@@ -1,8 +1,8 @@
 use advent_of_code::read_lines;
-use log::{debug, log_enabled, Level};
-use std::path::Path;
+use log::debug;
 use regex::Regex;
 use std::iter::zip;
+use std::path::Path;
 
 pub fn part_one(input_path: &Path) -> u64 {
     let mut solution: u64 = 1;
@@ -14,7 +14,10 @@ pub fn part_one(input_path: &Path) -> u64 {
     if let Ok(lines) = read_lines(input_path) {
         for line in lines {
             if let Ok(result) = line {
-                let results: Vec<u64> = re.find_iter(&result).map(|m| m.as_str().parse::<u64>().unwrap()).collect::<Vec<_>>();
+                let results: Vec<u64> = re
+                    .find_iter(&result)
+                    .map(|m| m.as_str().parse::<u64>().unwrap())
+                    .collect::<Vec<_>>();
 
                 if result.starts_with("Time") {
                     times = results.clone();
@@ -25,7 +28,7 @@ pub fn part_one(input_path: &Path) -> u64 {
         }
     }
 
-    let races= zip(times, distances);
+    let races = zip(times, distances);
 
     for race in races {
         let current_record_distance: u64 = race.1;
@@ -58,7 +61,10 @@ pub fn part_two(input_path: &Path) -> u64 {
     if let Ok(lines) = read_lines(input_path) {
         for line in lines {
             if let Ok(result) = line {
-                let results: Vec<u64> = re.find_iter(&result.replace(" ", "")).map(|m| m.as_str().parse::<u64>().unwrap()).collect::<Vec<_>>();
+                let results: Vec<u64> = re
+                    .find_iter(&result.replace(" ", ""))
+                    .map(|m| m.as_str().parse::<u64>().unwrap())
+                    .collect::<Vec<_>>();
 
                 if result.starts_with("Time") {
                     times = results.clone();
@@ -69,7 +75,7 @@ pub fn part_two(input_path: &Path) -> u64 {
         }
     }
 
-    let races= zip(times, distances);
+    let races = zip(times, distances);
 
     for race in races {
         debug!("{:#?} {:#?}", race.0, race.1);

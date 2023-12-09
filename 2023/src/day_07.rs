@@ -1,9 +1,8 @@
 use advent_of_code::read_lines;
-use log::{debug, log_enabled, Level};
-use std::path::Path;
-use std::collections::HashMap;
 use std::cmp::Ordering;
+use std::collections::HashMap;
 use std::fmt;
+use std::path::Path;
 
 pub fn part_one(input_path: &Path) -> u32 {
     load_hands(input_path, false, true)
@@ -50,7 +49,13 @@ impl fmt::Display for Hand {
         // stream: `f`. Returns `fmt::Result` which indicates whether the
         // operation succeeded or failed. Note that `write!` uses syntax which
         // is very similar to `println!`.
-        write!(f, "{} {:>3} {}", self.cards.clone().into_iter().collect::<String>(), self.bid, self.strength)
+        write!(
+            f,
+            "{} {:>3} {}",
+            self.cards.clone().into_iter().collect::<String>(),
+            self.bid,
+            self.strength
+        )
     }
 }
 
@@ -81,18 +86,14 @@ impl Hand {
 
         let mut hand_rank: HandRank = match mapping.len() {
             1 => HandRank::FiveOfAKind,
-            2 => {
-                match values.contains(&4) {
-                    true => HandRank::FourOfAKind,
-                    false => HandRank::FullHouse,
-                }
-            }
-            3 => {
-                match values.contains(&3) {
-                    true => HandRank::ThreeOfAKind,
-                    false => HandRank::TwoPair,
-                }
-            }
+            2 => match values.contains(&4) {
+                true => HandRank::FourOfAKind,
+                false => HandRank::FullHouse,
+            },
+            3 => match values.contains(&3) {
+                true => HandRank::ThreeOfAKind,
+                false => HandRank::TwoPair,
+            },
             4 => HandRank::OnePair,
             _ => HandRank::HighCard,
         };
@@ -103,33 +104,33 @@ impl Hand {
                 1 => HandRank::FiveOfAKind,
                 4 => HandRank::FiveOfAKind,
                 _ => HandRank::FourOfAKind,
-            }
+            },
             HandRank::FullHouse => match number_of_jokers_in_hand {
                 2 => HandRank::FiveOfAKind,
                 3 => HandRank::FiveOfAKind,
                 _ => HandRank::FullHouse,
-            }
+            },
             HandRank::ThreeOfAKind => match number_of_jokers_in_hand {
                 1 => HandRank::FourOfAKind,
                 2 => HandRank::FiveOfAKind,
                 3 => HandRank::FourOfAKind,
                 _ => HandRank::ThreeOfAKind,
-            }
+            },
             HandRank::TwoPair => match number_of_jokers_in_hand {
                 1 => HandRank::FullHouse,
                 2 => HandRank::FourOfAKind,
                 _ => HandRank::TwoPair,
-            }
+            },
             HandRank::OnePair => match number_of_jokers_in_hand {
                 1 => HandRank::ThreeOfAKind,
                 2 => HandRank::ThreeOfAKind,
                 3 => HandRank::FiveOfAKind,
                 _ => HandRank::OnePair,
-            }
+            },
             HandRank::HighCard => match number_of_jokers_in_hand {
                 1 => HandRank::OnePair,
-                _ => HandRank::HighCard
-            }
+                _ => HandRank::HighCard,
+            },
             _ => HandRank::HighCard,
         };
 
@@ -166,7 +167,7 @@ impl PartialOrd for Hand {
                     continue;
                 }
 
-                return Some(value.cmp(&other_value))
+                return Some(value.cmp(&other_value));
             }
         }
 

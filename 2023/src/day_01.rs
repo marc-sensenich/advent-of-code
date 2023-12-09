@@ -109,8 +109,14 @@ fn solve(input_path: &Path, potential_coordinates: Vec<PotentialCoordinate>) -> 
             if let Ok(result) = line {
                 for potential_coordinate in &potential_coordinates {
                     for potential_id in &potential_coordinate.potential_ids {
-                        for located_coordinate in result.match_indices(potential_id.as_str()).collect::<Vec<_>>() {
-                            located_coordinates.push(LocatedCoordinate{rank: located_coordinate.0 as i32, value: potential_coordinate.value.as_str().to_string()});
+                        for located_coordinate in result
+                            .match_indices(potential_id.as_str())
+                            .collect::<Vec<_>>()
+                        {
+                            located_coordinates.push(LocatedCoordinate {
+                                rank: located_coordinate.0 as i32,
+                                value: potential_coordinate.value.as_str().to_string(),
+                            });
                         }
                     }
                 }
@@ -119,9 +125,24 @@ fn solve(input_path: &Path, potential_coordinates: Vec<PotentialCoordinate>) -> 
 
                 let mut located_coordinate_value = 0;
                 if located_coordinates.len() > 1 {
-                    located_coordinate_value = format!("{}{}", located_coordinates.get(0).unwrap().value, located_coordinates.get(located_coordinates.len() - 1).unwrap().value).parse::<i32>().unwrap();
+                    located_coordinate_value = format!(
+                        "{}{}",
+                        located_coordinates.get(0).unwrap().value,
+                        located_coordinates
+                            .get(located_coordinates.len() - 1)
+                            .unwrap()
+                            .value
+                    )
+                    .parse::<i32>()
+                    .unwrap();
                 } else if located_coordinates.len() == 1 {
-                    located_coordinate_value = format!("{}{}", located_coordinates.get(0).unwrap().value, located_coordinates.get(0).unwrap().value).parse::<i32>().unwrap();
+                    located_coordinate_value = format!(
+                        "{}{}",
+                        located_coordinates.get(0).unwrap().value,
+                        located_coordinates.get(0).unwrap().value
+                    )
+                    .parse::<i32>()
+                    .unwrap();
                 }
 
                 sum += located_coordinate_value;

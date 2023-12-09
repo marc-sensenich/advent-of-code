@@ -1,9 +1,8 @@
 use advent_of_code::read_lines;
-use log::{debug, log_enabled, Level};
-use std::path::Path;
-use regex::Regex;
 use advent_of_code::Coordinate;
-use std::collections::{HashSet, HashMap};
+use regex::Regex;
+use std::collections::{HashMap, HashSet};
+use std::path::Path;
 
 const PART_NUMBER_REGEX_STR: &str = r"\d+";
 const SYMBOL_REGEX_STR: &str = r"[^\d.\n]";
@@ -27,7 +26,7 @@ fn extract_part_numbers_from_line(line: &str, row_index: i32) -> Vec<PossiblePar
     let part_number_captures = part_number_regex.captures_iter(&line);
     for mat in part_number_captures {
         let mat_value = mat.get(0).unwrap();
-        let mut possible_part_number = PossiblePartNumber{
+        let mut possible_part_number = PossiblePartNumber {
             value: mat_value.as_str().to_string().parse::<i32>().unwrap(),
             neighboring_coordinates: vec![],
         };
@@ -37,34 +36,34 @@ fn extract_part_numbers_from_line(line: &str, row_index: i32) -> Vec<PossiblePar
 
         // Add left and right edges of neighboring coordinates
         for i in -1..=1 {
-            possible_part_number.neighboring_coordinates.push(
-                Coordinate{
+            possible_part_number
+                .neighboring_coordinates
+                .push(Coordinate {
                     x: row_index + i,
                     y: mat_value.start() as i32 - 1,
-                }
-            );
-            possible_part_number.neighboring_coordinates.push(
-                Coordinate{
+                });
+            possible_part_number
+                .neighboring_coordinates
+                .push(Coordinate {
                     x: row_index + i,
                     y: mat_value.end() as i32,
-                }
-            );
+                });
         }
 
         // Add neighboring coordinates above and below each number
-        for i in mat_value.start()..=mat_value.end()-1 {
-            possible_part_number.neighboring_coordinates.push(
-                Coordinate{
+        for i in mat_value.start()..=mat_value.end() - 1 {
+            possible_part_number
+                .neighboring_coordinates
+                .push(Coordinate {
                     x: row_index - 1,
                     y: i as i32,
-                }
-            );
-            possible_part_number.neighboring_coordinates.push(
-                Coordinate{
+                });
+            possible_part_number
+                .neighboring_coordinates
+                .push(Coordinate {
                     x: row_index + 1,
                     y: i as i32,
-                }
-            );
+                });
         }
 
         possible_part_numbers.push(possible_part_number);
@@ -84,7 +83,8 @@ pub fn part_one(input_path: &Path) -> i32 {
     if let Ok(lines) = read_lines(input_path) {
         for line in lines {
             if let Ok(result) = line {
-                possible_part_numbers.extend(extract_part_numbers_from_line(&result, row_index).into_iter());
+                possible_part_numbers
+                    .extend(extract_part_numbers_from_line(&result, row_index).into_iter());
                 let symbol_captures = symbol_regex.captures_iter(&result);
 
                 for mat in symbol_captures {
@@ -120,14 +120,17 @@ pub fn part_two(input_path: &Path) -> i32 {
     if let Ok(lines) = read_lines(input_path) {
         for line in lines {
             if let Ok(result) = line {
-                possible_part_numbers.extend(extract_part_numbers_from_line(&result, row_index).into_iter());
+                possible_part_numbers
+                    .extend(extract_part_numbers_from_line(&result, row_index).into_iter());
 
                 let symbol_captures = symbol_regex.captures_iter(&result);
                 for mat in symbol_captures {
                     let mat_value = mat.get(0).unwrap();
                     gears.insert(
                         Coordinate::new(row_index, mat_value.start() as i32),
-                        Gear{adjacent_part_numbers: vec![]},
+                        Gear {
+                            adjacent_part_numbers: vec![],
+                        },
                     );
                 }
             }
@@ -148,7 +151,8 @@ pub fn part_two(input_path: &Path) -> i32 {
 
     for (_, gear) in gears.iter_mut() {
         if gear.adjacent_part_numbers.len() == 2 {
-            let gear_ratio: i32 = gear.adjacent_part_numbers.pop().unwrap() * gear.adjacent_part_numbers.pop().unwrap();
+            let gear_ratio: i32 = gear.adjacent_part_numbers.pop().unwrap()
+                * gear.adjacent_part_numbers.pop().unwrap();
             sum += gear_ratio;
         }
     }

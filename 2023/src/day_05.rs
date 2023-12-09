@@ -1,7 +1,7 @@
 use advent_of_code::read_lines;
-use log::{debug, log_enabled, Level};
+use log::debug;
+use std::collections::HashMap;
 use std::path::Path;
-use std::collections::{HashMap, HashSet};
 
 #[derive(Debug)]
 struct Range {
@@ -13,7 +13,7 @@ struct Range {
 
 impl Range {
     pub fn new(start: i64, range: i64, offset: i64) -> Range {
-        Range{
+        Range {
             start,
             end: start + range - 1,
             range,
@@ -31,14 +31,22 @@ impl Range {
 }
 
 fn convert_map_item_to_range(item: &str) -> Range {
-    let results: Vec<i64> = item.split_whitespace().collect::<Vec<&str>>().into_iter().map(|s| s.parse::<i64>().unwrap()).collect::<Vec<i64>>();
+    let results: Vec<i64> = item
+        .split_whitespace()
+        .collect::<Vec<&str>>()
+        .into_iter()
+        .map(|s| s.parse::<i64>().unwrap())
+        .collect::<Vec<i64>>();
     let dest_range_start: i64 = *results.get(0).unwrap();
     let src_range_start: i64 = *results.get(1).unwrap();
     let range_length: i64 = *results.get(2).unwrap();
 
-    Range::new(src_range_start, range_length, dest_range_start - src_range_start)
+    Range::new(
+        src_range_start,
+        range_length,
+        dest_range_start - src_range_start,
+    )
 }
-
 
 pub fn part_one(input_path: &Path) -> i64 {
     let mut minimum_seed_location: i64 = i64::MAX;
@@ -65,14 +73,26 @@ pub fn part_one(input_path: &Path) -> i64 {
             if let Ok(result) = line {
                 if result.is_empty() {
                     continue;
-                }
-                else if result.contains("seeds:") {
-                    seeds = result.split(": ").collect::<Vec<&str>>().get(1).unwrap().split_whitespace().collect::<Vec<&str>>().into_iter().map(|s| s.parse::<i64>().unwrap()).collect::<Vec<i64>>();
-                }
-                else if result.contains("map:") {
-                    current_input_map = result.split(" map:").collect::<Vec<&str>>().get(0).unwrap().trim().to_string();
-                }
-                else {
+                } else if result.contains("seeds:") {
+                    seeds = result
+                        .split(": ")
+                        .collect::<Vec<&str>>()
+                        .get(1)
+                        .unwrap()
+                        .split_whitespace()
+                        .collect::<Vec<&str>>()
+                        .into_iter()
+                        .map(|s| s.parse::<i64>().unwrap())
+                        .collect::<Vec<i64>>();
+                } else if result.contains("map:") {
+                    current_input_map = result
+                        .split(" map:")
+                        .collect::<Vec<&str>>()
+                        .get(0)
+                        .unwrap()
+                        .trim()
+                        .to_string();
+                } else {
                     if let Some(mapping) = mappings.get_mut(&current_input_map) {
                         mapping.push(convert_map_item_to_range(&result));
                     }
