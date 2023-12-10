@@ -33,11 +33,31 @@ impl Coordinate {
 
     pub fn neighboring_cardinal_directions(&self) -> Vec<Coordinate> {
         return Vec::from([
-            Coordinate::new(self.x + 1, self.y),
-            Coordinate::new(self.x - 1, self.y),
-            Coordinate::new(self.x, self.y + 1),
-            Coordinate::new(self.x, self.y - 1),
+            self.north_coordinate(),
+            self.south_coordinate(),
+            self.east_coordinate(),
+            self.west_coordinate(),
         ]);
+    }
+
+    pub fn north_coordinate(&self) -> Coordinate {
+        Coordinate::new(self.x - 1, self.y)
+    }
+
+    pub fn south_coordinate(&self) -> Coordinate {
+        Coordinate::new(self.x + 1, self.y)
+    }
+
+    pub fn east_coordinate(&self) -> Coordinate {
+        Coordinate::new(self.x, self.y + 1)
+    }
+
+    pub fn west_coordinate(&self) -> Coordinate {
+        Coordinate::new(self.x, self.y - 1)
+    }
+
+    pub fn distance(&self, other: Coordinate) -> i32 {
+        (((self.x - other.x).abs().pow(2) + (self.y - other.y).abs().pow(2)) as f32).sqrt() as i32
     }
 }
 
