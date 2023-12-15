@@ -1,6 +1,7 @@
 use clap::{Parser, Subcommand};
 use std::path::PathBuf;
 
+mod day_01;
 mod day_02;
 mod day_03;
 mod day_04;
@@ -26,6 +27,7 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
+    DayOne {},
     DayTwo {},
     DayThree {},
     DayFour {},
@@ -37,6 +39,12 @@ fn main() {
     env_logger::init();
 
     match &cli.command {
+        Some(Commands::DayOne {}) => {
+            if let Some(input_path) = cli.input.as_deref() {
+                println!("Part one answer: {}", day_01::part_one(input_path));
+                println!("Part two answer: {}", day_01::part_two(input_path));
+            }
+        }
         Some(Commands::DayTwo {}) => {
             if let Some(input_path) = cli.input.as_deref() {
                 println!("Part one answer: {}", day_02::part_one(input_path));
