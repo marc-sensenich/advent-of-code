@@ -1,7 +1,7 @@
 use advent_of_code::read_lines;
 use log::{debug, log_enabled, Level};
-use std::path::Path;
 use regex::Regex;
+use std::path::Path;
 
 struct GiftBox {
     length: u32,
@@ -11,8 +11,10 @@ struct GiftBox {
 
 impl GiftBox {
     pub fn new(length: u32, width: u32, height: u32) -> GiftBox {
-        GiftBox{
-            length, width, height
+        GiftBox {
+            length,
+            width,
+            height,
         }
     }
 
@@ -39,7 +41,6 @@ impl GiftBox {
     }
 }
 
-
 pub fn part_one(input_path: &Path) -> i32 {
     let mut sum: i32 = 0;
 
@@ -47,13 +48,14 @@ pub fn part_one(input_path: &Path) -> i32 {
         for line in lines {
             if let Ok(result) = line {
                 let re = Regex::new(r"(?<length>\d+)x(?<width>\d+)x(?<height>\d+)").unwrap();
-                match re.captures(&result){
+                match re.captures(&result) {
                     Some(capture) => {
                         sum += GiftBox::new(
                             capture["length"].to_string().parse::<u32>().unwrap(),
                             capture["width"].to_string().parse::<u32>().unwrap(),
                             capture["height"].to_string().parse::<u32>().unwrap(),
-                        ).wrapping_paper_required() as i32;
+                        )
+                        .wrapping_paper_required() as i32;
                     }
                     None => {}
                 }
@@ -71,13 +73,14 @@ pub fn part_two(input_path: &Path) -> i32 {
         for line in lines {
             if let Ok(result) = line {
                 let re = Regex::new(r"(?<length>\d+)x(?<width>\d+)x(?<height>\d+)").unwrap();
-                match re.captures(&result){
+                match re.captures(&result) {
                     Some(capture) => {
                         sum += GiftBox::new(
                             capture["length"].to_string().parse::<u32>().unwrap(),
                             capture["width"].to_string().parse::<u32>().unwrap(),
                             capture["height"].to_string().parse::<u32>().unwrap(),
-                        ).ribbon_required() as i32;
+                        )
+                        .ribbon_required() as i32;
                     }
                     None => {}
                 }

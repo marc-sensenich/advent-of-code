@@ -1,8 +1,7 @@
-use advent_of_code::{read_lines,read_file_to_string,Coordinate};
+use advent_of_code::{read_file_to_string, read_lines, Coordinate};
 use log::{debug, log_enabled, Level};
+use std::collections::{HashMap, HashSet};
 use std::path::Path;
-use std::collections::{HashSet, HashMap};
-
 
 pub fn part_one(input_path: &Path) -> i32 {
     let mut x: i32 = 0;
@@ -26,7 +25,7 @@ pub fn part_one(input_path: &Path) -> i32 {
                 'v' => {
                     x += 1;
                 }
-                _ => todo!()
+                _ => todo!(),
             }
 
             visited_locations.insert(Coordinate::new(x, y));
@@ -50,31 +49,23 @@ pub fn part_two(input_path: &Path) -> i32 {
     if let Ok(input) = read_file_to_string(input_path) {
         for (i, c) in input.chars().enumerate() {
             match c {
-                '>' => {
-                    match robo_santa_move {
-                        true => robo_santa_y += 1,
-                        false => santa_y += 1,
-                    }
-                }
-                '<' => {
-                    match robo_santa_move {
-                        true => robo_santa_y -= 1,
-                        false => santa_y -= 1,
-                    }
-                }
-                '^' => {
-                    match robo_santa_move {
-                        true => robo_santa_x -= 1,
-                        false => santa_x -= 1,
-                    }
-                }
-                'v' => {
-                    match robo_santa_move {
-                        true => robo_santa_x += 1,
-                        false => santa_x += 1,
-                    }
-                }
-                _ => todo!()
+                '>' => match robo_santa_move {
+                    true => robo_santa_y += 1,
+                    false => santa_y += 1,
+                },
+                '<' => match robo_santa_move {
+                    true => robo_santa_y -= 1,
+                    false => santa_y -= 1,
+                },
+                '^' => match robo_santa_move {
+                    true => robo_santa_x -= 1,
+                    false => santa_x -= 1,
+                },
+                'v' => match robo_santa_move {
+                    true => robo_santa_x += 1,
+                    false => santa_x += 1,
+                },
+                _ => todo!(),
             }
 
             match robo_santa_move {
