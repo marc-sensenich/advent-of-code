@@ -18,6 +18,7 @@ mod day_15;
 mod day_16;
 mod day_19;
 mod day_20;
+mod day_21;
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -56,6 +57,10 @@ enum Commands {
     DaySixteen {},
     DayNineteen {},
     DayTwenty {},
+    DayTwentyOne {
+        #[arg(short, long)]
+        goal_distance: u64,
+    },
 }
 
 fn main() {
@@ -163,6 +168,15 @@ fn main() {
             if let Some(input_path) = cli.input.as_deref() {
                 println!("Part one answer: {}", day_20::part_one(input_path));
                 println!("Part two answer: {}", day_20::part_two(input_path));
+            }
+        }
+        Some(Commands::DayTwentyOne { goal_distance }) => {
+            if let Some(input_path) = cli.input.as_deref() {
+                println!(
+                    "Part one answer: {}",
+                    day_21::part_one(input_path, *goal_distance)
+                );
+                // println!("Part two answer: {}", day_21::part_two(input_path));
             }
         }
         None => {}
