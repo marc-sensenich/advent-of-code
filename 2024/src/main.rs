@@ -3,6 +3,7 @@ use std::path::PathBuf;
 
 mod day_01;
 mod day_02;
+mod day_03;
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -26,6 +27,7 @@ struct Cli {
 enum Commands {
     DayOne {},
     DayTwo {},
+    DayThree {},
 }
 
 fn main() {
@@ -43,6 +45,12 @@ fn main() {
             if let Some(input_path) = cli.input.as_deref() {
                 println!("Part one answer: {}", day_02::part_one(input_path));
                 println!("Part two answer: {}", day_02::part_two(input_path));
+            }
+        }
+        Some(Commands::DayThree {}) => {
+            if let Some(input_path) = cli.input.as_deref() {
+                println!("Part one answer: {}", day_03::part_one(input_path));
+                println!("Part two answer: {}", day_03::part_two(input_path));
             }
         }
         None => {}
