@@ -32,17 +32,19 @@ pub fn part_two(input_path: &Path) -> i32 {
         for capture in regex.captures_iter(&input) {
             if capture.name("do").is_some() {
                 instructions_enabled = true;
-                continue
+                continue;
             }
 
             if capture.name("do_not").is_some() {
                 instructions_enabled = false;
-                continue
+                continue;
             }
 
             if instructions_enabled {
-                instruction_results.push(capture["left_operand"].parse::<i32>().unwrap()
-                    * capture["right_operand"].parse::<i32>().unwrap());
+                instruction_results.push(
+                    capture["left_operand"].parse::<i32>().unwrap()
+                        * capture["right_operand"].parse::<i32>().unwrap(),
+                );
             }
         }
     }
