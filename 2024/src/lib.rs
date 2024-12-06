@@ -33,11 +33,27 @@ impl Coordinate {
 
     pub fn neighboring_cardinal_directions(&self) -> Vec<Coordinate> {
         return Vec::from([
-            Coordinate::new(self.x + 1, self.y),
-            Coordinate::new(self.x - 1, self.y),
-            Coordinate::new(self.x, self.y + 1),
-            Coordinate::new(self.x, self.y - 1),
+            self.north_coordinate(),
+            self.south_coordinate(),
+            self.east_coordinate(),
+            self.west_coordinate(),
         ]);
+    }
+
+    pub fn north_coordinate(&self) -> Coordinate {
+        Coordinate::new(self.x - 1, self.y)
+    }
+
+    pub fn south_coordinate(&self) -> Coordinate {
+        Coordinate::new(self.x + 1, self.y)
+    }
+
+    pub fn east_coordinate(&self) -> Coordinate {
+        Coordinate::new(self.x, self.y + 1)
+    }
+
+    pub fn west_coordinate(&self) -> Coordinate {
+        Coordinate::new(self.x, self.y - 1)
     }
 }
 
@@ -53,5 +69,30 @@ impl PartialOrd for Coordinate {
 impl fmt::Display for Coordinate {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "x={}, y={}", self.x, self.y,)
+    }
+}
+
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
+pub enum Direction {
+    North,
+    South,
+    East,
+    West,
+    Unknown,
+}
+
+impl fmt::Display for Direction {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "{}",
+            match &self {
+                Direction::North => 'N',
+                Direction::South => 'S',
+                Direction::East => 'E',
+                Direction::West => 'W',
+                Direction::Unknown => '?',
+            }
+        )
     }
 }
