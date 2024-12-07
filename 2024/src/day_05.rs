@@ -45,11 +45,12 @@ fn parse_input(input_path: &Path) -> (Rules, Updates) {
                         rules.push(Rule::new(split_rule[0], split_rule[1]));
                     }
                 } else if result.contains(",") {
-                    updates.push(result
-                        .split(",")
-                        .filter(|s| s.parse::<i32>().is_ok())
-                        .map(|s| s.parse::<i32>().unwrap())
-                        .collect::<Vec<i32>>()
+                    updates.push(
+                        result
+                            .split(",")
+                            .filter(|s| s.parse::<i32>().is_ok())
+                            .map(|s| s.parse::<i32>().unwrap())
+                            .collect::<Vec<i32>>(),
                     );
                 }
             }
