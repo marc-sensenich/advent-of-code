@@ -98,7 +98,7 @@ fn main() {
         Some(Commands::DayTen {}) => {
             if let Some(input_path) = cli.input.as_deref() {
                 println!("Part one answer: {}", day_10::part_one(input_path));
-                // println!("Part two answer: {}", day_09::part_two(input_path));
+                println!("Part two answer: {}", day_10::part_two(input_path));
             }
         }
         None => {}
