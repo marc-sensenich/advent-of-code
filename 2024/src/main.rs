@@ -11,6 +11,7 @@ mod day_07;
 mod day_09;
 mod day_10;
 mod day_11;
+mod day_13;
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -42,6 +43,7 @@ enum Commands {
     DayNine {},
     DayTen {},
     DayEleven {},
+    DayThirteen {},
 }
 
 fn main() {
@@ -107,6 +109,12 @@ fn main() {
             if let Some(input_path) = cli.input.as_deref() {
                 println!("Part one answer: {}", day_11::part_one(input_path));
                 println!("Part two answer: {}", day_11::part_two(input_path));
+            }
+        }
+        Some(Commands::DayThirteen {}) => {
+            if let Some(input_path) = cli.input.as_deref() {
+                println!("Part one answer: {}", day_13::part_one(input_path));
+                // println!("Part two answer: {}", day_13::part_two(input_path));
             }
         }
         None => {}
