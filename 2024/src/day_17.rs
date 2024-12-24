@@ -1,12 +1,12 @@
 use advent_of_code::{read_file_to_string, read_lines};
 use log::{debug, log_enabled, Level};
-use std::path::Path;
 use regex::Regex;
+use std::path::Path;
 
 pub fn part_one(input_path: &Path) -> String {
     match read_file_to_string(input_path) {
         Ok(input) => solve_part_one(input.as_str()),
-        _ => String::from("")
+        _ => String::from(""),
     }
 }
 
@@ -15,7 +15,11 @@ fn solve_part_one(input: &str) -> String {
 
     c.execute_instructions();
 
-    c.output.iter().map(|o| o.to_string()).collect::<Vec<String>>().join(",")
+    c.output
+        .iter()
+        .map(|o| o.to_string())
+        .collect::<Vec<String>>()
+        .join(",")
 }
 
 type Register = u64;
@@ -30,7 +34,7 @@ struct Computer {
     register_c: Register,
     instructions: Instructions,
     instruction_pointer: usize,
-    output: Vec<u64>
+    output: Vec<u64>,
 }
 
 impl Computer {
@@ -65,10 +69,10 @@ impl Computer {
                                 0 => self.register_a = result,
                                 6 => self.register_b = result,
                                 7 => self.register_c = result,
-                                _ => {},
+                                _ => {}
                             }
                         }
-                    },
+                    }
                     1 => self.register_b = self.register_b ^ o,
                     2 => {
                         if let Some(c) = self.get_combo_operand(o) {
@@ -124,9 +128,14 @@ fn parse_input(input: &str) -> Computer {
                 capture["a"].parse().unwrap(),
                 capture["b"].parse().unwrap(),
                 capture["c"].parse().unwrap(),
-                capture["program"].split(",").map(|s| s.parse::<u64>().unwrap()).collect::<Vec<_>>()
+                capture["program"]
+                    .split(",")
+                    .map(|s| s.parse::<u64>().unwrap())
+                    .collect::<Vec<_>>(),
             )
-        }).nth(0).unwrap();
+        })
+        .nth(0)
+        .unwrap();
 
     c
 }
@@ -161,15 +170,12 @@ Program: 0,1,5,4,3,0";
         let got = solve_part_one(input);
 
         assert_eq!(got, expected);
-
     }
 
     #[test]
     fn execute_instructions_example_one() {
         let expected: u64 = 1;
-        let mut computer: Computer = Computer::new(
-            0, 0, 9, vec![2, 6]
-        );
+        let mut computer: Computer = Computer::new(0, 0, 9, vec![2, 6]);
 
         computer.execute_instructions();
 
@@ -179,9 +185,7 @@ Program: 0,1,5,4,3,0";
     #[test]
     fn execute_instructions_example_two() {
         let expected: Vec<u64> = vec![0, 1, 2];
-        let mut computer: Computer = Computer::new(
-            10, 0, 0, vec![5,0,5,1,5,4]
-        );
+        let mut computer: Computer = Computer::new(10, 0, 0, vec![5, 0, 5, 1, 5, 4]);
 
         computer.execute_instructions();
 
@@ -191,10 +195,8 @@ Program: 0,1,5,4,3,0";
     #[test]
     fn execute_instructions_example_three() {
         let expected_register_a: u64 = 0;
-        let expected_output: Vec<u64> = vec![4,2,5,6,7,7,7,7,3,1,0];
-        let mut computer: Computer = Computer::new(
-            2024, 0, 0, vec![0,1,5,4,3,0]
-        );
+        let expected_output: Vec<u64> = vec![4, 2, 5, 6, 7, 7, 7, 7, 3, 1, 0];
+        let mut computer: Computer = Computer::new(2024, 0, 0, vec![0, 1, 5, 4, 3, 0]);
 
         computer.execute_instructions();
 
@@ -205,9 +207,7 @@ Program: 0,1,5,4,3,0";
     #[test]
     fn execute_instructions_example_four() {
         let expected_register_b: u64 = 26;
-        let mut computer: Computer = Computer::new(
-            0, 29, 0, vec![1, 7]
-        );
+        let mut computer: Computer = Computer::new(0, 29, 0, vec![1, 7]);
 
         computer.execute_instructions();
 
@@ -217,9 +217,7 @@ Program: 0,1,5,4,3,0";
     #[test]
     fn execute_instructions_example_five() {
         let expected_register_b: u64 = 44354;
-        let mut computer: Computer = Computer::new(
-            0, 2024, 43690, vec![4, 0]
-        );
+        let mut computer: Computer = Computer::new(0, 2024, 43690, vec![4, 0]);
 
         computer.execute_instructions();
 

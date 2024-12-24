@@ -75,7 +75,9 @@ fn calculate_secret_number(current: u64, cycles: usize) -> (u64, Vec<i32>) {
     let mut result: u64 = current;
     let mut result_len: usize = current.to_string().len();
 
-    let mut price: i32 = result.to_string()[result_len-1..result_len].parse::<i32>().unwrap();
+    let mut price: i32 = result.to_string()[result_len - 1..result_len]
+        .parse::<i32>()
+        .unwrap();
     let mut prices: Vec<i32> = Vec::with_capacity(cycles + 1);
     prices.push(price);
 
@@ -85,7 +87,9 @@ fn calculate_secret_number(current: u64, cycles: usize) -> (u64, Vec<i32>) {
         result = prune_secret_number(mix_secret_number(result, result * 2048));
 
         result_len = result.to_string().len();
-        price = result.to_string()[result_len-1..result_len].parse::<i32>().unwrap();
+        price = result.to_string()[result_len - 1..result_len]
+            .parse::<i32>()
+            .unwrap();
         prices.push(price);
     }
 
@@ -102,14 +106,15 @@ fn parse_input(input: &str) -> Vec<u64> {
 
 fn solve_part_one(input: &str, cycles: usize) -> u64 {
     parse_input(input)
-        .iter().map(|i| calculate_secret_number(*i, cycles).0)
+        .iter()
+        .map(|i| calculate_secret_number(*i, cycles).0)
         .sum()
 }
 
 pub fn part_one(input_path: &Path) -> u64 {
     match read_file_to_string(input_path) {
         Ok(input) => solve_part_one(input.as_str(), 2000),
-        _ => 0
+        _ => 0,
     }
 }
 
