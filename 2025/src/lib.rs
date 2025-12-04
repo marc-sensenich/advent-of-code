@@ -32,12 +32,24 @@ impl Coordinate {
     }
 
     pub fn neighboring_cardinal_directions(&self) -> Vec<Coordinate> {
-        return Vec::from([
+        Vec::from([
             Coordinate::new(self.x + 1, self.y),
             Coordinate::new(self.x - 1, self.y),
             Coordinate::new(self.x, self.y + 1),
             Coordinate::new(self.x, self.y - 1),
+        ])
+    }
+
+    pub fn all_neighboring_directions(&self) -> Vec<Coordinate> {
+        let mut neighboring_directions = Vec::from([
+            Coordinate::new(self.x + 1, self.y + 1),
+            Coordinate::new(self.x - 1, self.y + 1),
+            Coordinate::new(self.x + 1, self.y - 1),
+            Coordinate::new(self.x - 1, self.y - 1),
         ]);
+        neighboring_directions.append(&mut self.neighboring_cardinal_directions());
+
+        neighboring_directions
     }
 }
 
