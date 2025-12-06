@@ -1,7 +1,6 @@
-use std::collections::HashMap;
 use advent_of_code::{read_file_to_string, Coordinate};
+use std::collections::HashMap;
 use std::path::Path;
-
 
 fn solve(diagram: &mut Diagram) -> u64 {
     let mut result: u64 = 0;
@@ -17,7 +16,7 @@ fn solve(diagram: &mut Diagram) -> u64 {
                             neighboring_rolls_of_paper += 1
                         }
                     }
-                    _ => continue
+                    _ => continue,
                 }
             }
 
@@ -41,7 +40,7 @@ fn solve_part_two(diagram: &mut Diagram) -> u64 {
     let mut movable_rolls: u64 = solve(diagram);
     let mut result: u64 = movable_rolls;
 
-    while movable_rolls != 0{
+    while movable_rolls != 0 {
         movable_rolls = solve(diagram);
         result += movable_rolls;
     }
@@ -73,10 +72,7 @@ fn input_to_diagram(input: String) -> Diagram {
     let mut diagram: Diagram = Diagram::new();
     for (x, line) in input.lines().enumerate() {
         for (y, char) in line.chars().enumerate() {
-            diagram.insert(
-                Coordinate::new(x as i32, y as i32),
-                char,
-            );
+            diagram.insert(Coordinate::new(x as i32, y as i32), char);
         }
     }
 
@@ -98,12 +94,10 @@ mod part_one_tests {
 .@.@.@.@@@
 @.@@@.@@@@
 .@@@@@@@@.
-@.@.@@@.@.".to_string();
+@.@.@@@.@."
+            .to_string();
 
-        assert_eq!(
-            solve(&mut input_to_diagram(input)),
-            13,
-        )
+        assert_eq!(solve(&mut input_to_diagram(input)), 13,)
     }
 }
 
@@ -122,11 +116,9 @@ mod part_two_tests {
 .@.@.@.@@@
 @.@@@.@@@@
 .@@@@@@@@.
-@.@.@@@.@.".to_string();
+@.@.@@@.@."
+            .to_string();
 
-        assert_eq!(
-            solve_part_two(&mut input_to_diagram(input)),
-            43,
-        )
+        assert_eq!(solve_part_two(&mut input_to_diagram(input)), 43,)
     }
 }

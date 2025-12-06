@@ -1,8 +1,6 @@
-use advent_of_code::{read_file_to_string, read_lines, Coordinate};
-use log::{debug, log_enabled, Level};
+use advent_of_code::{read_file_to_string};
 use std::collections::HashSet;
-use std::io::Error;
-use std::ops::{Range, RangeInclusive};
+use std::ops::{RangeInclusive};
 use std::path::Path;
 
 #[cfg(test)]
@@ -11,16 +9,11 @@ mod tests {
 
     fn expected_parsed_input() -> Option<(FreshIngredients, AvailableIngredients)> {
         let expected_available_ingredients: AvailableIngredients = vec![1, 5, 8, 11, 17, 32];
-        let expected_fresh_ingredients: FreshIngredients = FreshIngredients::from_iter(vec![
-            3..=5,
-            10..=14,
-            16..=20,
-            12..=18,
-        ]);
+        let expected_fresh_ingredients: FreshIngredients =
+            FreshIngredients::from_iter(vec![3..=5, 10..=14, 16..=20, 12..=18]);
 
         Some((expected_fresh_ingredients, expected_available_ingredients))
     }
-
 
     #[test]
     fn test_parse_input() {
@@ -36,7 +29,6 @@ mod tests {
 17
 32"
         .to_string();
-
 
         assert_eq!(parse_input(input), expected_parsed_input())
     }
@@ -68,7 +60,10 @@ fn parse_input(input: String) -> Option<(FreshIngredients, AvailableIngredients)
     let mut fresh_ingredients: FreshIngredients = FreshIngredients::new();
 
     split_input[0].lines().for_each(|l| {
-        let range = l.split("-").filter_map(|s| s.parse::<u64>().ok()).collect::<Vec<u64>>();
+        let range = l
+            .split("-")
+            .filter_map(|s| s.parse::<u64>().ok())
+            .collect::<Vec<u64>>();
         fresh_ingredients.insert(range[0]..=range[1]);
     });
 
@@ -89,7 +84,7 @@ fn solve_part_one(fresh: FreshIngredients, available: AvailableIngredients) -> u
     result
 }
 
-fn solve_part_two(fresh: FreshIngredients, available: AvailableIngredients) -> usize {
+fn solve_part_two(_fresh: FreshIngredients, _available: AvailableIngredients) -> usize {
     // Too slow of a solution
     // let mut acc: HashSet<u64> = HashSet::new();
     // for j in fresh {
@@ -102,25 +97,20 @@ fn solve_part_two(fresh: FreshIngredients, available: AvailableIngredients) -> u
 
 pub fn part_one(input_path: &Path) -> usize {
     match read_file_to_string(input_path) {
-        Ok(input) => {
-            match parse_input(input) {
-                Some((fresh, available)) => solve_part_one(fresh, available),
-                None => 0
-
-            }
-        }
-        Err(_) => 0
+        Ok(input) => match parse_input(input) {
+            Some((fresh, available)) => solve_part_one(fresh, available),
+            None => 0,
+        },
+        Err(_) => 0,
     }
 }
 
 pub fn part_two(input_path: &Path) -> usize {
     match read_file_to_string(input_path) {
-        Ok(input) => {
-            match parse_input(input) {
-                Some((fresh, available)) => solve_part_two(fresh, available),
-                None => 0
-            }
-        }
-        Err(_) => 0
+        Ok(input) => match parse_input(input) {
+            Some((fresh, available)) => solve_part_two(fresh, available),
+            None => 0,
+        },
+        Err(_) => 0,
     }
 }

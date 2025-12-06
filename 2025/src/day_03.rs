@@ -1,5 +1,5 @@
+use advent_of_code::read_file_to_string;
 use std::collections::VecDeque;
-use advent_of_code::{read_file_to_string};
 use std::path::Path;
 
 pub fn part_one(input_path: &Path) -> u64 {
@@ -19,12 +19,19 @@ pub fn part_two(input_path: &Path) -> u64 {
 }
 
 fn solve(input: String, result_length: usize) -> u64 {
-    input.lines().map(|i| find_largest_joltage(i.to_string(), result_length)).sum()
+    input
+        .lines()
+        .map(|i| find_largest_joltage(i.to_string(), result_length))
+        .sum()
 }
 
 fn find_largest_joltage(bank: String, result_length: usize) -> u64 {
     let mut result_vec: VecDeque<u64> = VecDeque::new();
-    let mut bank_vec = bank.chars().filter_map(|c| c.to_digit(10)).map(|x| x as u64).collect::<VecDeque<u64>>();
+    let mut bank_vec = bank
+        .chars()
+        .filter_map(|c| c.to_digit(10))
+        .map(|x| x as u64)
+        .collect::<VecDeque<u64>>();
     let mut max: u64;
     let mut max_idx: usize = 0;
 
@@ -49,7 +56,12 @@ fn find_largest_joltage(bank: String, result_length: usize) -> u64 {
         }
     }
 
-    result_vec.iter().map(|x| x.to_string()).collect::<String>().parse::<u64>().unwrap()
+    result_vec
+        .iter()
+        .map(|x| x.to_string())
+        .collect::<String>()
+        .parse::<u64>()
+        .unwrap()
 }
 
 #[cfg(test)]
@@ -96,10 +108,7 @@ mod tests {
 234234234234278
 818181911112111";
 
-        assert_eq!(
-            solve(input.to_string(), RESULT_LENGTH),
-            357,
-        )
+        assert_eq!(solve(input.to_string(), RESULT_LENGTH), 357,)
     }
 }
 
@@ -148,9 +157,6 @@ mod tests_part_two {
 234234234234278
 818181911112111";
 
-        assert_eq!(
-            solve(input.to_string(), RESULT_LENGTH),
-            3121910778619,
-        )
+        assert_eq!(solve(input.to_string(), RESULT_LENGTH), 3121910778619,)
     }
 }
