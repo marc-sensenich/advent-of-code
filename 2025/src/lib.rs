@@ -58,7 +58,7 @@ impl PartialOrd for Coordinate {
         if self.x == other.x {
             return Some(self.y.cmp(&other.y));
         }
-        Some(self.y.cmp(&other.y))
+        Some(self.x.cmp(&other.x))
     }
 }
 
