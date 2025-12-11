@@ -11,7 +11,8 @@ fn solve_part_one(coordinates: &mut Vec<Coordinate>) -> u64 {
 
         for j in (0..(coordinates.len() - i)).rev() {
             let c2: Coordinate = coordinates[j];
-            let area: u64 = ((c1.x - c2.x + 1).abs() as i64 * (c1.y - c2.y + 1).abs() as i64) as u64;
+            let area: u64 =
+                ((c1.x - c2.x + 1).abs() as i64 * (c1.y - c2.y + 1).abs() as i64) as u64;
 
             if area > max_area {
                 max_area = area;
@@ -23,17 +24,21 @@ fn solve_part_one(coordinates: &mut Vec<Coordinate>) -> u64 {
 }
 
 fn parse_input(input: String) -> Vec<Coordinate> {
-    input.lines().map(|l| {
-        let split = l.split(",").filter_map(|x| x.parse::<i32>().ok()).collect::<Vec<i32>>();
-        Coordinate::new(split[0], split[1])
-    }).collect::<Vec<Coordinate>>()
+    input
+        .lines()
+        .map(|l| {
+            let split = l
+                .split(",")
+                .filter_map(|x| x.parse::<i32>().ok())
+                .collect::<Vec<i32>>();
+            Coordinate::new(split[0], split[1])
+        })
+        .collect::<Vec<Coordinate>>()
 }
 
 pub fn part_one(input_path: &Path) -> u64 {
     match read_file_to_string(input_path) {
-        Ok(input) => {
-            solve_part_one(&mut parse_input(input))
-        },
+        Ok(input) => solve_part_one(&mut parse_input(input)),
         Err(_) => 0,
     }
 }
@@ -65,14 +70,14 @@ mod tests {
 
     fn example_coordinates() -> Vec<Coordinate> {
         vec![
-            Coordinate::new(7,1),
-            Coordinate::new(11,1),
-            Coordinate::new(11,7),
-            Coordinate::new(9,7),
-            Coordinate::new(9,5),
-            Coordinate::new(2,5),
-            Coordinate::new(2,3),
-            Coordinate::new(7,3),
+            Coordinate::new(7, 1),
+            Coordinate::new(11, 1),
+            Coordinate::new(11, 7),
+            Coordinate::new(9, 7),
+            Coordinate::new(9, 5),
+            Coordinate::new(2, 5),
+            Coordinate::new(2, 3),
+            Coordinate::new(7, 3),
         ]
     }
 
@@ -86,9 +91,6 @@ mod tests {
 
     #[test]
     fn test_solve_part_one_example() {
-        assert_eq!(
-            solve_part_one(&mut example_coordinates()),
-            50
-        )
+        assert_eq!(solve_part_one(&mut example_coordinates()), 50)
     }
 }

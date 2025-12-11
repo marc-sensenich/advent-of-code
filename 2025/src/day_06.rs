@@ -1,4 +1,4 @@
-use advent_of_code::{read_file_to_string};
+use advent_of_code::read_file_to_string;
 use std::collections::VecDeque;
 use std::path::Path;
 

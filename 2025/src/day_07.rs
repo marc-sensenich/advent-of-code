@@ -1,32 +1,25 @@
-use advent_of_code::{read_file_to_string};
+use advent_of_code::read_file_to_string;
 use std::path::Path;
 
 fn solve_part_one(input: &mut Vec<char>, start: usize, offset: usize) -> u64 {
     match input.get(start) {
-        Some(c) => {
-            match c {
-                '.' => {
-                    input[start] = '|';
-                    solve_part_one(input, start + offset, offset)
-                }
-                'S' | '|' => {
-                    solve_part_one(input, start + offset, offset)
-                }
-                '^' => {
-                    input[start] = 'v';
-                    input[start - 1] = '|';
-                    input[start + 1] = '|';
-
-                    1 + solve_part_one(input, start - 1, offset) + solve_part_one(input, start + 1, offset)
-                }
-                _ => {
-                    0
-                }
+        Some(c) => match c {
+            '.' => {
+                input[start] = '|';
+                solve_part_one(input, start + offset, offset)
             }
-        }
-        None => {
-            0
-        }
+            'S' | '|' => solve_part_one(input, start + offset, offset),
+            '^' => {
+                input[start] = 'v';
+                input[start - 1] = '|';
+                input[start + 1] = '|';
+
+                1 + solve_part_one(input, start - 1, offset)
+                    + solve_part_one(input, start + 1, offset)
+            }
+            _ => 0,
+        },
+        None => 0,
     }
 }
 
@@ -61,14 +54,14 @@ fn parse_input(input: String) -> (Vec<char>, usize, usize) {
         Some(l) => l.len(),
         None => 0,
     };
-    let result: Vec<char> = input.lines().map(|l| l.chars()).flatten().collect::<Vec<char>>();
+    let result: Vec<char> = input
+        .lines()
+        .map(|l| l.chars())
+        .flatten()
+        .collect::<Vec<char>>();
     let start: usize = result.iter().position(|c| *c == 'S').unwrap_or_else(|| 0);
 
-    (
-        result,
-        start,
-        offset,
-    )
+    (result, start, offset)
 }
 
 pub fn part_one(input_path: &Path) -> u64 {
@@ -76,7 +69,7 @@ pub fn part_one(input_path: &Path) -> u64 {
         Ok(input) => {
             let (mut input_vec, start, offset) = parse_input(input);
             solve_part_one(&mut input_vec, start, offset)
-        },
+        }
         Err(_) => 0,
     }
 }
@@ -86,11 +79,10 @@ pub fn part_two(input_path: &Path) -> u64 {
         Ok(input) => {
             let (mut input_vec, start, offset) = parse_input(input);
             solve_part_two(&mut input_vec, start, offset)
-        },
+        }
         Err(_) => 0,
     }
 }
-
 
 #[cfg(test)]
 mod test {
@@ -114,25 +106,35 @@ mod test {
 ...............";
 
     fn example_as_vec() -> Vec<char> {
-        vec!['.', '.', '.', '.', '.', '.', '.', 'S', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '^', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '^', '.', '^', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '^', '.', '^', '.', '^', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '^', '.', '^', '.', '.', '.', '^', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '^', '.', '^', '.', '.', '.', '^', '.', '^', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '^', '.', '.', '.', '^', '.', '.', '.', '.', '.', '^', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '^', '.', '^', '.', '^', '.', '^', '.', '^', '.', '.', '.', '^', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', ]
+        vec![
+            '.', '.', '.', '.', '.', '.', '.', 'S', '.', '.', '.', '.', '.', '.', '.', '.', '.',
+            '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.',
+            '.', '.', '.', '^', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.',
+            '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '^', '.',
+            '^', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.',
+            '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '^', '.', '^', '.', '^', '.', '.',
+            '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.',
+            '.', '.', '.', '.', '.', '^', '.', '^', '.', '.', '.', '^', '.', '.', '.', '.', '.',
+            '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.',
+            '^', '.', '^', '.', '.', '.', '^', '.', '^', '.', '.', '.', '.', '.', '.', '.', '.',
+            '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '^', '.', '.', '.', '^',
+            '.', '.', '.', '.', '.', '^', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.',
+            '.', '.', '.', '.', '.', '.', '.', '^', '.', '^', '.', '^', '.', '^', '.', '^', '.',
+            '.', '.', '^', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.',
+            '.', '.',
+        ]
     }
 
     fn test_solve_part_one(input: &mut Vec<char>, start: usize, offset: usize, expected: u64) {
         let result = solve_part_one(input, start, offset);
 
-        assert_eq!(
-            result,
-            expected,
-        )
+        assert_eq!(result, expected,)
     }
 
     fn test_solve_part_two(input: &mut Vec<char>, start: usize, offset: usize, expected: u64) {
         let result = solve_part_two(input, start, offset);
 
-        assert_eq!(
-            result,
-            expected,
-        )
+        assert_eq!(result, expected,)
     }
 
     #[test]
@@ -146,7 +148,11 @@ mod test {
     #[test]
     fn test_solve_part_one_simple() {
         test_solve_part_one(
-            &mut vec!['.', '.', '.', '.', '.', '.', '.', 'S', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '^', '.', '.', '.', '.', '.', '.', '.', ],
+            &mut vec![
+                '.', '.', '.', '.', '.', '.', '.', 'S', '.', '.', '.', '.', '.', '.', '.', '.',
+                '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.',
+                '.', '.', '.', '.', '.', '^', '.', '.', '.', '.', '.', '.', '.',
+            ],
             7,
             15,
             1,
@@ -155,42 +161,30 @@ mod test {
 
     #[test]
     fn test_solve_part_one_iter() {
-        let (mut input, start, offset) = parse_input(".......S.......
+        let (mut input, start, offset) = parse_input(
+            ".......S.......
 ...............
 .......^.......
 ...............
 ......^.^......
 ...............
 .....^.^.^.....
-...............".to_string());
+..............."
+                .to_string(),
+        );
 
-        test_solve_part_one(
-            &mut input,
-            start,
-            offset,
-            6,
-        )
+        test_solve_part_one(&mut input, start, offset, 6)
     }
 
     #[test]
     fn test_solve_part_one_example() {
         let (mut input, start, offset) = parse_input(EXAMPLE_AS_STRING.to_string());
-        test_solve_part_one(
-            &mut input,
-            start,
-            offset,
-            21,
-        )
+        test_solve_part_one(&mut input, start, offset, 21)
     }
 
     #[test]
     fn test_solve_part_two_example() {
         let (mut input, start, offset) = parse_input(EXAMPLE_AS_STRING.to_string());
-        test_solve_part_two(
-            &mut input,
-            start,
-            offset,
-            40,
-        )
+        test_solve_part_two(&mut input, start, offset, 40)
     }
 }
